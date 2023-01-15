@@ -1,11 +1,8 @@
 #include <iostream>
 #include <string>
-#include <cmath>
-#include <vector>
-
 using namespace std;
 
-// 문자열의 수가 음수인지 판별하는 함수
+
 bool IsNumNegative ( string &str )
 {
     if ( str.front() == '-' )
@@ -18,8 +15,8 @@ bool IsNumNegative ( string &str )
     }
 }
 
-//문자열의 순서를 반대로 만드는 함수
-string ReverseStr ( string &str )
+
+string ReverseStr ( string str )
 {
     string revstr = "";
 
@@ -31,146 +28,94 @@ string ReverseStr ( string &str )
     return revstr;
 }
 
+
 string filltering ( string str, int Maxlen )
 {
     str = ReverseStr(str);
     str.resize(Maxlen,'0');
-    str = ReverseStr(str);
     return str;
 }
 
-//문자열을 부분 연산해주는 함수
-long long range_add ( string A, string B, int front, int range )
-{
-    string sub_A = A.substr(front, range);
-    string sub_B = B.substr(front, range);
 
-    sub_A = ReverseStr(sub_A);
-    sub_B = ReverseStr(sub_B);
-
-    long long llA = stoll(sub_A);
-    long long llB = stoll(sub_B);
-
-    long long llres = llA + llB;
-    return llres;
-}
-
-// add 연산
 string add ( string A, string B )
 {
+    string res = "";
     int Maxlen = A.length();
-    int range = 18;
-
-    if ( (Maxlen % range) != 0 )
-    {
-        Maxlen += range - (Maxlen % range);
-    }
+    int carry = 0;
 
     A = filltering(A, Maxlen);
     B = filltering(B, Maxlen);
 
-    A = ReverseStr(A);
-    B = ReverseStr(B);
-    string res = "";
-
-    int carry = 0;
-
-    for ( int i = 0; i < ( Maxlen / range ); i++ )
+    for ( int i = 0; i < Maxlen; i++ )
     {
-        long long llres = range_add(A, B, (range * i), range );
+        int i_A = (int)A[i] - 48;
+        int i_B = (int)B[i] - 48;
+        int i_res;
 
-        if ( carry == 1 )
+        if ( carry == 0 )
         {
-            llres += carry--;
+            i_res = i_A + i_B;
         }
-
-        string strres = to_string(llres);
-        strres = ReverseStr(strres);
+        else
+        {
+            i_res = i_A + i_B + carry;
+            carry--;
+        }
         
-        if ( strres.length() > range )
+        if ( i_res >= 10 )
         {
+            i_res -= 10;
             carry++;
-            strres.pop_back();
         }
 
-        res += strres;
+        res += to_string(i_res);
+    }
+    if ( carry == 1 )
+    {
+        res += "1";
     }
 
     res = ReverseStr(res);
     return res;
 }
 
-//문자열을 부분 연산해주는 함수
-long long range_sub ( string A, string B, int front, int range )
-{
-    string sub_A = A.substr(front, range);
-    string sub_B = B.substr(front, range);
-
-    long long llA = stoll(sub_A);
-    long long llB = stoll(sub_B);
-
-    long long llres = llA - llB;
-    return llres;
-}
 
 string sub ( string A, string B )
 {
-    // 메인 함수에서 큰 쪽을 A에 둠
+    string res = "";
     int Maxlen = A.length();
-    int range = 18;
+    int carry = 0;
 
-    // Maxlen을 range의 배수로 바꿈
-    if ( (Maxlen % range) != 0 )
-    {
-        Maxlen += range - (Maxlen % range);
-    }
-
-    // 0으로 Maxlen의 길이로 필터링해줌
     A = filltering(A, Maxlen);
     B = filltering(B, Maxlen);
-    vector <string> strres;
 
-    for ( int i = 0; i < (Maxlen / range); i++ )
+    for ( int i = 0; i < Maxlen; i++ )
     {
-        long long llres = range_sub(A, B, (range * i), range);
+        int i_A = (int)A[i] - 48;
+        int i_B = (int)B[i] - 48;
+        int i_res;
 
-        if ( llres < 0 )
+        if ( carry == 0 )
         {
-            long long befllres = stoll(strres[i-1]) - 1;
-            string befstrres = to_string(befllres);
-
-            if ( ((befstrres.length() - 1) < range) )
-            {
-                befstrres = filltering(befstrres, range);
-            }
-
-            strres[i-1] = befstrres;
-
-            long long tenpow = pow(10, range);
-            llres += tenpow;
+            i_res = i_A - i_B;
+        }
+        else
+        {
+            i_res = i_A - i_B - carry;
+            carry--;
         }
 
-        string str = to_string(llres);
-
-        if ( (i > 0) )
+        if ( i_res < 0 )
         {
-            if ( ((str.length() - 1) < range) )
-            {
-                str = filltering(str, range);
-            }
+            i_res += 10;
+            carry++;
         }
 
-        strres.push_back(str);
-
+        res += to_string(i_res);
     }
-    
-    string res = ""; 
 
-    for ( string i : strres )
-    {
-        res += i;
-    }
-    
+    res = ReverseStr(res);
+
     while ( res[0] == '0' )
     {
         res.erase(0, 1);
@@ -179,9 +124,9 @@ string sub ( string A, string B )
     return res;
 }
 
+
 int main()
 {
-    //18자리수인데 공백 '\0' 포함이 됨.
     string A;
     string B;
     string res = "";
@@ -196,8 +141,6 @@ int main()
         A.erase(0, 1);
         B.erase(0, 1);
 
-        // A의 길이를 기준으로 필터링을 하기위해
-        // 만약 B가 더 큰 경우 A와 B를 바꿔서 입력 
         if ( A.length() >= B.length() )
         {
             res = '-' + add(A, B);
@@ -234,7 +177,6 @@ int main()
                 res = "0";
             }
         }
-
     }
     else if ( Is_B_Nega == true )
     {
