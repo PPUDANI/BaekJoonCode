@@ -1,22 +1,17 @@
-
 #include <iostream>
-#include <set>
+#include <vector>
+#include <algorithm>
 using namespace std;
-
-int main()
-{
-    int N;
-    cin >> N;
-    set<int> s;
-    for (int i = 0; i < N; ++i)
+int main() {
+    int num,tmp;
+    vector<int> a;
+    cin >> num;
+    for(int i = 0; i < num; i++)
     {
-        int Num;
-        cin >> Num;
-        s.insert(Num);
+        cin >> tmp;
+        a.push_back(tmp);
     }
-    
-    for (int i : s)
-    {
-        cout << i << "\n";
-    }
+    sort(a.begin(),a.end());
+    for(int i = 0; i < num; i++)
+        cout << a[i] << '\n';
 }
