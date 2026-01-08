@@ -1,6 +1,5 @@
 #include <iostream>
 #include <unordered_map>
-#include <set>
 using namespace std;
 
 int main()
@@ -10,9 +9,6 @@ int main()
     cin.tie(0);
     
     unordered_map<string, int> Functions;
-    set<int> Numbers;
-    set<int> AlllNumber = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    set<int> Empty;
     Functions.insert({"add", 0});
     Functions.insert({"remove", 1});
     Functions.insert({"check", 2});
@@ -24,42 +20,43 @@ int main()
     int N;
     cin >> N;
     
+    string str; 
+    int S = 0;
+    int x;
     for (int i = 0; i < N; ++i)
     {
-        string str; 
-        int data;
         cin >> str;
         
         switch (Functions[str])
         {
         case 4: // all
-            Numbers = AlllNumber;
+            S = (1 << 21) - 1; // 1~20 비트를 모두 1로 (1000...00 - 1)
             break;
         case 5: // empty
-            Numbers = Empty;
+            S = 0; // 모든 비트 0으로
             break;
         case 0: // add
-            cin >> data;
-            Numbers.insert(data);
+            cin >> x;
+            S |= (1 << x); // x번째 비트를 1로 설정
             break;
         case 1: // remove
-            cin >> data;
-            Numbers.erase(data);
+            cin >> x;
+            S &= ~(1 << x); // x번째 비트를 0으로 설정
             break;
         case 2: // check
-            cin >> data;
-            cout << (Numbers.find(data) != Numbers.end()) << "\n";
-            break;
-        case 3: // toggle
-            cin >> data;
-            if (Numbers.find(data) != Numbers.end())
+            cin >> x;
+            if (S & (1 << x))
             {
-                Numbers.erase(data);
+                cout << 1 << "\n";
             }
             else
             {
-                Numbers.insert(data);
+                cout << 0 << "\n";
             }
+            break;
+        case 3: // toggle
+            cin >> x;
+            S ^= (1 << x); // x번째 비트 반전 (1이면 0, 0이면 1)
             break;
         }
     }
