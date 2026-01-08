@@ -1,6 +1,6 @@
 #include <iostream>
 #include <unordered_map>
-#include <unordered_set>
+#include <set>
 using namespace std;
 
 int main()
@@ -10,9 +10,9 @@ int main()
     cin.tie(0);
     
     unordered_map<string, int> Functions;
-    unordered_set<int> Numbers;
-    unordered_set<int> AlllNumber = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    unordered_set<int> Empty;
+    set<int> Numbers;
+    set<int> AlllNumber = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    set<int> Empty;
     Functions.insert({"add", 0});
     Functions.insert({"remove", 1});
     Functions.insert({"check", 2});
