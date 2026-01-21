@@ -3,8 +3,8 @@
 #include <algorithm>
 using namespace std;
 
-bool visited[10001];
 vector<string> answer;
+bool visited[10001];
 
 bool dfs(const string& Airport, const vector<vector<string>>& tickets, int count)
 {
@@ -12,9 +12,9 @@ bool dfs(const string& Airport, const vector<vector<string>>& tickets, int count
     {
         return true;
     }
-    
+
     for(int i = 0; i < tickets.size(); ++i)
-    {
+    {   
         if(visited[i] == false && tickets[i][0] == Airport)
         {
             visited[i] = true;
@@ -28,15 +28,16 @@ bool dfs(const string& Airport, const vector<vector<string>>& tickets, int count
             visited[i] = false;
         }
     }
-    
     return false;
 }
 
 vector<string> solution(vector<vector<string>> tickets) 
 {
-
     sort(tickets.begin(), tickets.end());
+    
     answer.push_back("ICN");
     dfs("ICN", tickets, 0);
+    
+    
     return answer;
 }
