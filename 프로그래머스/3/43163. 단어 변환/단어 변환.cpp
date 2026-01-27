@@ -1,60 +1,51 @@
 #include <string>
 #include <vector>
-#include <queue>
 
 using namespace std;
+const string* Target;
+bool visited[51] = {false, };
+int MinCount = 51;
 
-#define Max 10000
-int solution(string begin, string target, vector<string> words) 
+bool dfs(const string& begin, const vector<string>& words, int count)
 {
+    if(begin == (*Target))
+    {
+        return true;
+    }
+    
+    for(int i = 0; i < words.size(); ++i)
+    {
+        if (visited[i] == true)
+        {
+            continue;
+        }
+        
+        int difcount = 0;
+        for(int j = 0; j < begin.length(); ++j)
+        {
+            if(begin[j] != words[i][j])
+            {
+                ++difcount;
+            }
+        }
+        
+        if(difcount == 1)
+        {
+            visited[i] = true;
+            if(dfs(words[i], words, count + 1))
+            {
+                MinCount = min(count+1, MinCount);
+            }
+            visited[i] = false;
+        }
+    }
+    
+    return false;
+}
+
+int solution(string begin, string target, vector<string> words) {
     int answer = 0;
-    int wordlength = int(begin.length());
-    bool IsChangeable = false;
-    for(const string& word : words)
-    {
-        if(word == target)
-        {
-            IsChangeable = true;
-        }
-    }
-    if(IsChangeable == false)
-    {
-        return 0;
-    }
-    
-    queue<pair<string, int>> BFS;
-    
-    BFS.push({begin, 0});
-    while(!BFS.empty())
-    {
-        string CurStr = BFS.front().first;
-        int CurCount = BFS.front().second;
-        BFS.pop();
-        
-        if(CurStr == target)
-        {
-            return CurCount;
-        }
-        
-        int WordIndex = 0;
-        for(const string& word : words)
-        {
-            int SameAlpha = 0;
-            for(int i = 0; i < wordlength; ++i)
-            {
-                if(CurStr[i] == word[i])
-                {
-                    ++SameAlpha;
-                }
-            }
-            
-            if(SameAlpha == wordlength - 1)
-            {
-                BFS.push({word, CurCount + 1});
-            }
-            ++WordIndex;
-        }
-    }
-    int b;
-    return 0;
+    Target = &target;
+    dfs(begin, words, 0);
+    return MinCount == 51 ? 0 : MinCount;
 }
