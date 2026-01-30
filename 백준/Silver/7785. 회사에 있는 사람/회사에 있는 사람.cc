@@ -1,5 +1,5 @@
 #include <iostream>
-#include <map>
+#include <set>
 using namespace std;
 
 
@@ -9,7 +9,7 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
     
-    map<string, bool> logs;
+    set<string> logs;
     int n;
     cin >> n;
     
@@ -19,19 +19,16 @@ int main()
         cin >> Name >> Check;
         if (Check == "enter")
         {
-            logs[Name] = true;
+            logs.insert(Name);
         }
         else if (Check == "leave")
         {
-            logs[Name] = false;
+            logs.erase(Name);
         }
     }
     
-    for(map<string, bool>::reverse_iterator iter = logs.rbegin(); iter != logs.rend(); iter++)
+    for(set<string>::reverse_iterator iter = logs.rbegin(); iter != logs.rend(); iter++)
     {
-        if ((*iter).second == true)
-        {
-            cout << (*iter).first << "\n";
-        }
+        cout << (*iter) << "\n";
     }
 }
