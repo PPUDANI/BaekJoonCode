@@ -1,7 +1,6 @@
 #include <iostream>
-#include <map>
 using namespace std;
-
+int arr[20000001] = {0, };
 int main()
 {   
     ios::sync_with_stdio(false);
@@ -9,20 +8,20 @@ int main()
     cout.tie(NULL);
     
     int n, m;
-    map<int, int> Cards;
     cin >> n;
     for(int i = 0; i < n; ++i)
     {
         int Num;
         cin >> Num;
-        Cards[Num]++;
+        arr[Num + 10000000]++;
     }
+    
     cin >> m;
     for(int i = 0; i < m; ++i)
     {
         int Num;
         cin >> Num;
-        if(Cards[Num])
+        if(arr[Num + 10000000] == 1)
         {
             cout << "1 ";
         }
