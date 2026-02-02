@@ -8,13 +8,13 @@ string str;
 bool ParenthesesCheck()
 {
     stack<char> st;
-    for (int i = 0; i < str.length(); i++)
+    for (char c : str)
     {
-        if  (str[i] == '(' || str[i] == '[')
+        if  (c == '(' || c == '[')
         {
-            st.push(str[i]);
+            st.push(c);
         }
-        else if (str[i] == ')')
+        else if (c == ')')
         {
             if (st.size() && st.top() == '(')
             {
@@ -25,7 +25,7 @@ bool ParenthesesCheck()
                 return false;
             }
         }
-        else if (str[i] == ']')
+        else if (c == ']')
         {
             if (st.size() && st.top() == '[')
             {
