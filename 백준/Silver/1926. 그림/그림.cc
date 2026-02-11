@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <vector>
-#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -12,35 +12,16 @@ int PaintCount = 0;
 int dy[4] = {-1, 1, 0, 0};
 int dx[4] = {0, 0, -1, 1};
 
-// int dfs(int StartY, int StartX)
-// {
-//     visited[StartY][StartX] = true;
-//     
-//     int Count = 1;
-//     for (int i = 0; i < 4; ++i)
-//     {
-//         int NextY = StartY + dy[i];
-//         int NextX = StartX + dx[i];
-//
-//         if (!visited[NextY][NextX] && Graph[NextY][NextX] == 1)
-//         {
-//             Count += dfs(NextY, NextX);
-//         }
-//     }
-//     
-//     return Count;
-// }
-
 int bfs(int StartY, int StartX)
 {
-    queue<pair<int, int>> q;
+    stack<pair<int, int>, vector<pair<int, int>>> q;
     q.push({StartY, StartX});
     visited[StartY][StartX] = true;
     int Count = 0;
     while (!q.empty())
     {
-        int CurY = q.front().first;
-        int CurX = q.front().second;
+        int CurY = q.top().first;
+        int CurX = q.top().second;
         q.pop();
         ++Count;
         
