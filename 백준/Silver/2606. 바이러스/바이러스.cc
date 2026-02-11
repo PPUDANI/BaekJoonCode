@@ -1,47 +1,42 @@
+
 #include <iostream>
 #include <vector>
-#include <stack>
 using namespace std;
+
+#define MAX_NODE 101
+
+vector<vector<int>> Graph(101, vector<int>());
+bool visited[MAX_NODE] = {false,};
+int Count = 0;
+void dfs(int Node)
+{
+    visited[Node] = true;
+    
+    for(int i = 0; i < Graph[Node].size(); i++)
+    {
+        if (!visited[Graph[Node][i]])
+        {
+            dfs(Graph[Node][i]);
+            Count++;
+        }
+    }
+}
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    int n, m;
+    cin >> n >> m;
     
-    int N, M;
-    cin >> N >> M;
     
-    vector<vector<int>> Graph(N + 1, vector<int>()); 
-    for (int i = 0; i < M; ++i)
+    for (int i = 0; i < m; ++i)
     {
-        int left, right;
-        cin >> left >> right;
-        Graph[left].push_back(right);
-        Graph[right].push_back(left);
+        int first, second;
+        cin >> first >> second;
+        Graph[first].push_back(second);
+        Graph[second].push_back(first);
     }
     
-    vector<int> Visit(N + 1, 0);
+    dfs(1);
     
-    stack<int, vector<int>> st;
-    st.push(1);
-    Visit[1] = 1;
-    int Count = 0;
-    while (!st.empty())
-    {
-        int CurNode = st.top();
-        st.pop();
-        
-        for (int NextNode : Graph[CurNode])
-        {
-            if (Visit[NextNode] == 0)
-            {
-                Visit[NextNode] = 1;
-                ++Count;
-                st.push(NextNode);
-            }
-        }
-    }
-
     cout << Count;
 }
