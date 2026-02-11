@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -14,7 +13,7 @@ int dx[4] = {0, 0, -1, 1};
 
 int bfs(int StartY, int StartX)
 {
-    stack<pair<int, int>, vector<pair<int, int>>> q;
+    stack<pair<int, int>> q;
     q.push({StartY, StartX});
     visited[StartY][StartX] = true;
     int Count = 0;
