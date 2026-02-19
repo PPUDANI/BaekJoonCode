@@ -21,12 +21,13 @@ int dfs(int CurNode, bool* IsVisit, int DeleteNode)
 
 int CountSubTree(int StartNode, int DeleteNode)
 {
-    bool IsVisit[100] = {false, };
+    bool IsVisit[101] = {false, };
     return dfs(StartNode, IsVisit, DeleteNode);
 }
 
 int solution(int n, vector<vector<int>> wires) 
 {
+    Graph.clear();
     for(vector<int> wire : wires)
     {
         Graph[wire[0]].push_back(wire[1]);
