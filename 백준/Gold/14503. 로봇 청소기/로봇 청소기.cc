@@ -22,17 +22,24 @@ int main()
         }
     }
     
+    // 0: North
+    // 1: East 
+    // 2: South
+    // 3: West
+    int dy[4] = {-1, 0, 1, 0};
+    int dx[4] = {0, 1, 0, -1};
+    
     int CurX = StartX;
     int CurY = StartY;
     int CurDir = StartDir;
-    int count = 0;
+    int Count = 0;
     
     while (true)
     {
         if (Map[CurY][CurX] == 0)
         {
             Map[CurY][CurX] = 2;
-            count++;
+            Count++;
         }
         else if (
             Map[CurY+1][CurX] != 0 &&
@@ -40,22 +47,10 @@ int main()
             Map[CurY][CurX+1] != 0 &&
             Map[CurY][CurX-1] != 0)
         {
-            switch (CurDir)
-            {
-            case 0:
-                CurY += 1;
-                break;
-            case 1:
-                CurX -= 1;
-                break;
-            case 2:
-                CurY -= 1;
-                break;
-            case 3:
-                CurX += 1;
-                break;
-            }
-            
+            // Turn Back 
+            int BackDir = (CurDir + 2) % 4;
+            CurY += dy[BackDir];
+            CurX += dx[BackDir];
             if (Map[CurY][CurX] == 1)
             {
                 break;
@@ -66,36 +61,15 @@ int main()
             Map[CurY][CurX+1] == 0 ||
             Map[CurY][CurX-1] == 0)
         {
-            int DirX = 0;
-            int DirY = 0;
-            switch (CurDir)
-            {
-            case 0:
-                DirX = -1;
-                break;
-            case 1:
-                DirY = -1;
-                break;
-            case 2:
-                DirX = +1;
-                break;
-            case 3:
-                DirY = +1;
-                break;
-            }
-
-            if ( Map[CurY + DirY][CurX + DirX] == 0)
-            {
-                CurY += DirY;
-                CurX += DirX;
-            }
+            // Turn Left 
+            CurDir = (CurDir + 3) % 4;
             
-            CurDir = (CurDir - 1);
-            if (CurDir < 0)
+            if ( Map[CurY + dy[CurDir]][CurX + dx[CurDir]] == 0)
             {
-                CurDir = 3;
+                CurY += dy[CurDir];
+                CurX += dx[CurDir];
             }
         }
     }
-    cout << count;
+    cout << Count;
 }
