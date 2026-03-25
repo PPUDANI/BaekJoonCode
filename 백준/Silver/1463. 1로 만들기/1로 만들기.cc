@@ -1,35 +1,38 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <queue>
 using namespace std;
 
-int main() 
+int main()
 {
-	int n; cin >> n;
-
-	vector<int> dp(1000001);
-	dp[1] = 0; 
-	dp[2] = 1; 
-	dp[3] = 1;
-
-
-	for (int i = 4; i <= 1000000; i++)
-	{
-		int count=0;
-
-		dp[i] = dp[i - 1] + 1;
-
-		if (i % 3 == 0) 
-		{ 
-			count = 1+dp[i / 3]; 
-			if (count < dp[i]){dp[i]=count;}
-		}
-		if (i % 2 == 0) 
-		{ 
-			count = 1 + dp[i / 2];
-			if (count < dp[i]) { dp[i] = count; }
-		}
-	}
-
-	cout << dp[n];
-	
+    int N;
+    cin >> N;
+    
+    queue<pair<int, int>> q;
+    q.push({N, 0});
+    
+    while (!q.empty())
+    {
+        auto CurData = q.front();
+        q.pop();
+        
+        if (CurData.first == 1)
+        {
+            cout << CurData.second;
+            return 0;
+        }
+        
+        CurData.second += 1;
+        
+        if (CurData.first % 3 == 0)
+        {
+            q.push({CurData.first / 3, CurData.second});
+        }
+        
+        if (CurData.first % 2 == 0)
+        {
+            q.push({CurData.first / 2, CurData.second});
+        }
+        
+        q.push({CurData.first - 1, CurData.second});
+    }
 }
