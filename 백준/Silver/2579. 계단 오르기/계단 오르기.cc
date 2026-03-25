@@ -1,30 +1,29 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
+int Stairs[301] = {0,};
+int DP[301]= {0,};
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    int NumOfStair;
-    cin >> NumOfStair;
+    int N;
+    cin >> N;
     
-    int Stairs[301] = {0, };
-    int DP[301];
-    for (int i = 1; i <= NumOfStair; i++)
+    for (int i = 1; i <= N; ++i)
     {
         cin >> Stairs[i];
     }
     
-    DP[0] = 0;
     DP[1] = Stairs[1];
     DP[2] = DP[1] + Stairs[2];
     
-    for(int i = 3; i <= NumOfStair; i++)
+    for (int i = 0; i <= N - 2; ++i)
     {
-        int Step1 = DP[i - 3] + Stairs[i - 1] + Stairs[i];
-        int Step2 = DP[i - 2] + Stairs[i];
-        DP[i] = max(Step1, Step2);
+        int NewScore = DP[i] + Stairs[i + 2];
+        DP[i + 2] = max(DP[i + 2] , NewScore);
+        DP[i + 3] = max(DP[i + 3], NewScore + Stairs[i + 3]);
     }
     
-    cout << DP[NumOfStair];
+    cout << DP[N];
 }
