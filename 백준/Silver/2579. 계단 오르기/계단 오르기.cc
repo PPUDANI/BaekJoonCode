@@ -16,13 +16,10 @@ int main()
     }
     
     DP[1] = Stairs[1];
-    DP[2] = DP[1] + Stairs[2];
-    
-    for (int i = 0; i <= N - 2; ++i)
+    DP[2] = Stairs[1] + Stairs[2];
+    for (int i = 3; i <= N; ++i)
     {
-        int NewScore = DP[i] + Stairs[i + 2];
-        DP[i + 2] = max(DP[i + 2] , NewScore);
-        DP[i + 3] = max(DP[i + 3], NewScore + Stairs[i + 3]);
+        DP[i] = max(DP[i - 2] + Stairs[i], DP[i - 3] + Stairs[i - 1] + Stairs[i]);
     }
     
     cout << DP[N];
