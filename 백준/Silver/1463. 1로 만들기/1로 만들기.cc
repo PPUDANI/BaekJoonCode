@@ -1,35 +1,27 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 using namespace std;
-#define INF 100000000
+
 int main()
 {
     int N;
     cin >> N;
     
-    vector<int> DP(N+1, INF);
+    vector<int> DP(N+1, 0);
     
     DP[1] = 0;
-    for (int i = 1; i < N; ++i)
+    for (int i = 2; i <= N; ++i)
     {
-        int CurCount = DP[i] + 1;
-        int Times3 = i * 3;
-        int Times2 = i * 2;
-        int Plus1 = i + 1;
+        DP[i] = DP[i - 1] + 1;
         
-        if (Times3 <= N)
+        if (i % 2 == 0)
         {
-            DP[Times3] = min(DP[Times3], CurCount);
+            DP[i] = min(DP[i], DP[i / 2] + 1);
         }
         
-        if (Times2 <= N)
+        if (i % 3 == 0)
         {
-            DP[Times2] = min(DP[Times2], CurCount);
-        }
-        
-        if (Plus1 <= N)
-        {
-            DP[Plus1] = min(DP[Plus1], CurCount);
+            DP[i] = min(DP[i], DP[i / 3] + 1);
         }
     }
     
