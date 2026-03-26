@@ -1,5 +1,5 @@
 #include <iostream>
-#include <unordered_set>
+#include <set>
 using namespace std;
 
 int main()
@@ -10,7 +10,7 @@ int main()
     
     int n;
     cin >> n;
-    unordered_set<int> us;
+    set<int> us;
     for (int i = 0; i < n; ++i)
     {
         int Num;
