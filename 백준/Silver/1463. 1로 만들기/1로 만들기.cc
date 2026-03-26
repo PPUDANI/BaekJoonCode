@@ -1,38 +1,37 @@
 #include <iostream>
 #include <queue>
 using namespace std;
-
+#define INF 100000000
 int main()
 {
     int N;
     cin >> N;
     
-    queue<pair<int, int>> q;
-    q.push({N, 0});
+    vector<int> DP(N+1, INF);
     
-    while (!q.empty())
+    DP[1] = 0;
+    for (int i = 1; i < N; ++i)
     {
-        auto CurData = q.front();
-        q.pop();
+        int CurCount = DP[i] + 1;
+        int Times3 = i * 3;
+        int Times2 = i * 2;
+        int Plus1 = i + 1;
         
-        if (CurData.first == 1)
+        if (Times3 <= N)
         {
-            cout << CurData.second;
-            return 0;
+            DP[Times3] = min(DP[Times3], CurCount);
         }
         
-        CurData.second += 1;
-        
-        if (CurData.first % 3 == 0)
+        if (Times2 <= N)
         {
-            q.push({CurData.first / 3, CurData.second});
+            DP[Times2] = min(DP[Times2], CurCount);
         }
         
-        if (CurData.first % 2 == 0)
+        if (Plus1 <= N)
         {
-            q.push({CurData.first / 2, CurData.second});
+            DP[Plus1] = min(DP[Plus1], CurCount);
         }
-        
-        q.push({CurData.first - 1, CurData.second});
     }
+    
+    cout << DP[N];
 }
