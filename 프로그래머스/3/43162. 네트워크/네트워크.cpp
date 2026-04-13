@@ -2,38 +2,52 @@
 #include <vector>
 
 using namespace std;
-vector<bool> IsVisit;
 
-void dfs(const vector<vector<int>>& computers, int Index)
+bool IsVisit[200] = {false,};
+void dfs(int CurNode, vector<vector<int>>& Graph)
 {
-    IsVisit[Index] = true;
-    
-    for(int i = 0; i < computers[Index].size(); ++i)
+    if(IsVisit[CurNode])
     {
-        if(Index == i || computers[Index][i] == 0 || IsVisit[i])
+        return;
+    }
+    else
+    {
+        IsVisit[CurNode] = true;
+        for(int NextNode : Graph[CurNode])
         {
-            continue;
+             dfs(NextNode, Graph);
         }
-        
-        dfs(computers, i);
     }
 }
 
+
 int solution(int n, vector<vector<int>> computers) 
 {
-    IsVisit.assign(n, false);
-    
-    int Count = 0;
+    vector<vector<int>> Graph(n, vector<int>());
     for(int i = 0; i < n; ++i)
     {
-        if(IsVisit[i])
+        for(int j = 0; j < n; ++j)
         {
-            continue;
+            if(computers[i][j] == 1)
+            {
+                Graph[i].push_back(j);
+                Graph[j].push_back(i);
+            }
         }
-        
-        dfs(computers, i);
-        Count++;
     }
     
-    return Count;
+    int count = 0;
+            
+    for(int i = 0; i < n; ++i)
+    {
+        if(IsVisit[i] == false)
+        {
+            dfs(i, Graph);
+            ++count;
+        }
+
+    }
+    
+    
+    return count;
 }
